@@ -121,10 +121,12 @@ def main(args):
     output = get_git_branches()
     branches_info = parse_git_branches(output)
     print(branches_menu(branches_info))
-    choice = raw_input('Select a branch by number: ')
     try:
+        choice = raw_input('Select a branch by number: ')
         branch = branches_info.all_branches[int(choice)]
         print(git_checkout(branch))
+    except KeyboardInterrupt:
+        print('\nCanceled.')
     except:
         print('Invalid input. Checkout fail.')
         return 1
