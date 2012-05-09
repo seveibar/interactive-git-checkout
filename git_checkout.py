@@ -115,7 +115,7 @@ def runTests():
 def main(args):
     program_args = args[1:]
 
-    if 'test' in program_args:
+    if '--test' in program_args:
         return runTests()
 
     output = get_git_branches()
