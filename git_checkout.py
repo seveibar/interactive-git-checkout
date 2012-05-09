@@ -8,6 +8,7 @@ import unittest
 
 from collections import namedtuple
 from StringIO import StringIO
+from subprocess import call
 
 
 DETACHED_HEAD_BRANCH_NAME = '(no branch) - detached HEAD'
@@ -117,6 +118,9 @@ def main(args):
 
     if '--test' in program_args:
         return runTests()
+
+    if len(program_args) > 0:
+        return call(['git', 'checkout'] + program_args)
 
     output = get_git_branches()
     branches_info = parse_git_branches(output)
