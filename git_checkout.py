@@ -6,19 +6,19 @@ import sys
 import subprocess
 import unittest
 
+from collections import namedtuple
 from StringIO import StringIO
 
 
 DETACHED_HEAD_BRANCH_NAME = '(no branch) - detached HEAD'
 
 
-class BranchesInfo:
-    "Keep data about branches."
-
-    def __init__(self, all_branches, current_branch, current_index):
-        self.all_branches = all_branches  # list of strings
-        self.current_branch = current_branch  # string
-        self.current_index = current_index  # number
+# Keep data about branches.
+BranchesInfo = namedtuple('BranchesInfo', [
+        'all_branches',  # list of strings
+        'current_branch',  # string
+        'current_index',  # number
+        ])
 
 
 def get_git_branches():
