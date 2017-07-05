@@ -7,8 +7,14 @@ import subprocess
 import unittest
 
 from collections import namedtuple
-from StringIO import StringIO
 from subprocess import call
+
+try:
+    # python 2
+    from StringIO import StringIO
+except ImportError:
+    # python 3
+    from io import StringIO
 
 
 DETACHED_HEAD_BRANCH_NAME = '(no branch) - detached HEAD'
@@ -39,7 +45,7 @@ def branches_menu(branches_info):
     s = StringIO()
     s.write('\nCurrent branch: %s\n\n' % branches_info.current_branch)
     for i, branch in enumerate(branches_info.all_branches):
-        s.write('%s  %s\n' % (i, branch))
+        s.write('%s  %s\n' % (i, branch.decode()))
     return s.getvalue()
 
 
@@ -126,9 +132,14 @@ def main(args):
     branches_info = parse_git_branches(output)
     print(branches_menu(branches_info))
     try:
-        choice = raw_input('Select a branch by number: ')
+        try:
+            # python 2
+            choice = raw_input('Select a branch by number: ')
+        except:
+            # python 3
+            choice = input('Select a branch by number: ')
         branch = branches_info.all_branches[int(choice)]
-        print(git_checkout(branch))
+        print(git_checkout(branch).decode())
     except KeyboardInterrupt:
         print('\nCanceled.')
     except:
